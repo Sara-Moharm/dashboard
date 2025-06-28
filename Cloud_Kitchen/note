@@ -1,0 +1,517 @@
+  public function createOrder(array $validated)
+    {
+        // Extract all model lookups BEFORE transaction
+        \Log::info('Inside service');
+        // $customer = null;
+        // $deliveryPersonnel = null;
+
+        // if (isset($validated['customer_id'])) {
+        //     $customer = Customer::findOrFail($validated['customer_id']);
+        // }
+
+        // if (isset($validated['delivery_personnel_id'])) {
+        //     $deliveryPersonnel = Staff::findOrFail($validated['delivery_personnel_id']);
+        // }
+
+        // if (isset($validated['customer_address_id'])) {
+        //     // Assuming you have a CustomerAddress model
+        //     // $customerAddress = CustomerAddress::findOrFail($validated['customer_address_id']);
+        // }
+
+        // foreach ($validated['order_items'] as $item) {
+        //     CategoryDish::findOrFail($item['category_dish_id']); // Pre-validate
+        // }
+
+        // , $customer, $deliveryPersonnel
+        // Now wrap only DB writes in transaction
+        return DB::transaction(function () use ($validated) {
+            $orderData = [
+                'status' => $validated['status'] ?? 'pending',
+                // 'customer_id' => optional($customer)->id,
+                'customer_id' => $validated['customer_id'] ?? null,
+                'delivery_personnel_id' => $validated['delivery_personnel_id'] ?? null,
+                // 'delivery_personnel_id' => optional($deliveryPersonnel)->id,
+                // 'customer_address_id' => optional($customerAddress)->id,
+            ];
+
+            $order = Order::create($orderData);
+
+            foreach ($validated['order_items'] as $item) {
+                $categoryDish = CategoryDish::findOrFail($item['category_dish_id']);
+                $order->orderItems()->create([
+                    'category_dish_id' => $categoryDish->id,
+                    'price' => $categoryDish->price,
+                    'quantity' => $item['quantity'] ?? 1,
+                ]);
+            }
+
+            return $order->load('orderItems.categoryDish', 'customer')->toArray();
+        });
+    }
+
+    public function getOrderById(string $id)
+    {
+        return Order::with(['orderItems.categoryDish', 'customer'])->findOrFail($id);
+    }
+
+   public function updateOrder(string $id, array $data)
+    {
+        return DB::transaction(function () use ($id, $data) {
+            $order = Order::findOrFail($id);
+
+            // if (isset($data['status'])) {
+            //     $order->update(['status' => $data['status']]);
+            // }
+
+            // if (isset($data['customer_id'])) {
+            //     $updatedCustomer = Customer::findOrFail($data['customer_id']);
+            //     $order->update(['customer_id' => $updatedCustomer->id]);
+            // }
+
+            // if (isset($data['delivery_personnel_id'])) {
+            //     $updatedDeliveryPersonnel = Staff::findOrFail($data['delivery_personnel_id']);
+            //     $order->update(['delivery_personnel_id' => $updatedDeliveryPersonnel->id]);
+            // }
+
+            $order->update(Arr::only($data, ['status', 'customer_id', 'delivery_personnel_id']));
+
+            
+            // if (isset($data['customer_address_id'])) {
+            //     $updatedCustomerAddress = CustomerAddress::findOrFail($data['customer_address_id']);
+            //     $order->update(['customer_address_id' => $updatedCustomerAddress->id]);
+            // }
+
+            if (isset($data['order_items'])) {
+                foreach ($data['order_items'] as $orderItem) {
+                    if (isset($orderItem['id'])) {
+                        $updatedItem =$order->orderItems()->findOrFail($orderItem['id']);
+                        $updatedItem->update(Arr::only($orderItem, ['category_dish_id', 'quantity']));
+
+                    } else {
+                        $order->orderItems()->create([
+                            'category_dish_id' => $orderItem['category_dish_id'],
+                            'quantity' => $orderItem['quantity'],
+                        ]);
+                    }
+                }
+            }
+            return $order->load('orderItems.categoryDish');
+        });
+    }
+
+
+
+    <!-- OrderRequest -->
+       // public function messages()
+    // {
+    //     return [
+    //         'order_items.*.id.prohibited' => 'You cannot include an ID when creating a new order.',
+    //         'customer_id.exists' => 'Invalid customer ID',
+    //         'delivery_personnel_id.exists' => 'Invalid delivery personnel ID',
+    //         'order_items.*.id.required' => 'Order item ID is required when updating.',
+    //         'order_items.*.id.exists' => 'The selected order item does not exist.',
+    //         'order_items.*.category_dish_id.exists' => 'Invalid dish ID',
+    //         'order_items.*.category_dish_id.required' => 'Category dish id is required when storing.',
+    //     ];
+    // }
+
+    <!-- OrderItemRequest -->
+        //  public function messages(): array
+    // {
+    //     return [
+    //         'order_id.required' => 'Order ID is required.',
+    //         'order_id.exists' => 'Invalid order ID.',
+    //         'category_dish_id.required' => 'category dish id is required.',
+    //         'category_dish_id.exists' => 'Invalid category dish ID.',
+    //         'staff_id.exists' => 'Invalid staff ID.',
+
+    //     ];
+    // }
+
+<!-- 
+                                                ✅ 1. KPIs تشغيلية أساسية (Core Operational KPIs)
+                                                هدفها: توري المدير حالة التشغيل لحظة بلحظة.
+
+                                                عدد الطلبات اليوم
+
+                                                عدد الطلبات المكتملة
+
+                                                عدد الطلبات الجارية
+
+                                                عدد الطلبات المتأخرة
+
+                                                متوسط وقت تحضير الطلب
+
+                                                متوسط وقت توصيل الطلب
+
+
+
+                                            ✅ 2. مؤشرات أداء المبيعات (Sales Performance)
+                                            هدفها: توري الإيرادات واتجاهاتها.
+
+                                            إجمالي المبيعات اليوم/الشهر
+
+                                            عدد الطلبات لكل يوم خلال آخر 7 أيام (chart)
+
+                                            متوسط قيمة الطلب الواحد
+
+                                            أعلى 5 أصناف من حيث المبيعات
+
+                                            الطلبات حسب قناة الطلب (موقع – واتساب – تليفون)
+
+
+
+
+                                            ✅ 3. أداء الشيفات والدليفري (Team Efficiency)
+                                            هدفها: تقييم الفريق.
+
+                                            عدد الطلبات المنفذة لكل شيف اليوم
+
+                                            متوسط وقت تحضير الشيف
+
+                                            عدد الطلبات اللي وصلها كل دليفري
+
+                                            متوسط وقت التوصيل لكل دليفري
+
+                                            نسبة الطلبات المتأخرة لكل فرد
+
+
+
+
+                                                    ✅ 4. تحليل الأصناف (Menu Analytics)
+                                                    هدفها: تعرف إيه اللي شغال.
+
+                                                    Top 5 أصناف مبيعًا
+
+                                                    Bottom 5 أصناف (اللي مش بتتباع)
+
+                                                    نسبة مساهمة كل صنف في المبيعات
+
+                                                    مقارنة أداء الأصناف حسب الفئة (مثلاً: ساندويتش، حلويات، مشروبات)
+
+   
+   
+   
+    ✅ 5. تحليل الإلغاء (Cancellations)
+    هدفها: تفهم سبب الفشل.
+
+    عدد الطلبات الملغية اليوم/الشهر
+
+    نسبة الإلغاء من إجمالي الطلبات
+
+    أكثر وقت بيحصل فيه إلغاء
+
+    (اختياري: سبب الإلغاء لو متسجل)
+
+    
+
+    
+    ✅ 6. نشاط العملاء (Customer Behavior)
+    هدفها: تعرف نوع العملاء وتكرارهم.
+
+    عدد العملاء الجدد اليوم
+
+    عدد العملاء المتكررين
+
+    متوسط عدد الطلبات للعميل المتكرر
+
+    أعلى 5 عملاء صرفًا
+
+    
+    
+    
+    
+    
+    ✅ 7. الضغط التشغيلي (Peak Load Insight)
+    هدفها: تخطيط الموارد.
+
+    أكثر وقت فيه طلبات خلال اليوم
+
+    عدد الطلبات في كل ساعة (heatmap أو bar chart)
+
+    نسبة التأخيرات وقت الذروة
+
+  
+  
+  
+    ✅ أهم التقارير/الرسوم (Charts & Trends)
+    Line chart: الطلبات اليومية آخر 30 يوم
+
+    Pie chart: توزيع الطلبات حسب القناة
+
+    Bar chart: مقارنة الشيفات
+
+    Heatmap: ضغط الطلبات بالساعة
+
+    لو هتبدأ بمرحلة واحدة، اشتغل على:
+
+    KPIs + Sales + Team
+    الباقي ممكن يتضاف لاحقًا بس دول عضم المشروع.
+
+   
+   
+   
+   
+   
+   
+   
+    $query = Order::query();
+
+        if ($request->has('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->has('chef_id')) {
+            $query->where('chef_id', $request->chef_id);
+        }
+
+        if ($request->has('order_status')) {
+            $query->where('status', $request->order_status);
+        }
+
+        if ($request->has('category')) {
+            $query->whereHas('items', function ($q) use ($request) {
+                $q->where('category', $request->category);
+            });
+            
+ -->
+
+ // To get top rated category dishes
+    // public function getTopRatedCategoryDishes($limit = 5)
+    // {
+    //     return CategoryDish::withCount('orderItems')
+    //         ->having('order_items_count', '>', 0)
+    //         ->orderByDesc('order_items_count')
+    //         ->take($limit)
+    //         ->get();
+    // }
+
+    // // To get top rated category dishes grouped by Category   
+    // public function getTopRatedDishesGroupedByCategory($limit = 3)
+    // {
+    //     return Category::with(['categoryDish' => function ($query) use ($limit) {
+    //         $query->withCount('orderItems')
+    //             ->having('order_items_count', '>', 0)
+    //             ->orderByDesc('order_items_count')
+    //             ->take($limit);
+    //     }])->get();
+    // }
+
+    // // To get top rated category dishes for a specific category
+    // public function getTopRatedCategoryDishesByCategory($categoryId, $limit = 5)
+    // {
+    //     return CategoryDish::withCount('orderItems')
+    //         ->where('category_id', $categoryId)
+    //         ->having('order_items_count', '>', 0)
+    //         ->orderByDesc('order_items_count')
+    //         ->take($limit)
+    //         ->get();
+    // }
+
+
+
+    // public function getLeastPopularDishesGroupedByCategory($limit = 3)
+    // {
+    //     return Category::with(['categoryDish' => function ($query) use ($limit) {
+    //         $query->withCount('orderItems')
+    //             ->orderBy('order_items_count', 'asc')
+    //             ->take($limit);
+    //     }])->get();
+    // }
+
+    // public function getUnorderedDishesGroupedByCategory()
+    // {
+    //     return Category::with(['categoryDish' => function ($query) {
+    //         $query->withCount('orderItems')
+    //             ->having('order_items_count', '=', 0);
+    //     }])->get();
+    // }
+
+
+       // public function getTopRatedCategoryDishes($limit = 5, $categoryId = null, $groupByCategory = false)
+    // {
+    //     if ($groupByCategory) {
+    //         return Category::with(['categoryDish' => function ($query) use ($limit) {
+    //             $query->withCount('orderItems')
+    //                 ->having('order_items_count', '>', 0)
+    //                 ->orderByDesc('order_items_count')
+    //                 ->take($limit);
+    //         }])->get();
+    //     }
+
+    //     $query = CategoryDish::withCount('orderItems')
+    //         ->having('order_items_count', '>', 0)
+    //         ->orderByDesc('order_items_count');
+
+    //     if ($categoryId) {
+    //         $query->where('category_id', $categoryId);
+    //     }
+
+    //     return $query->take($limit)->get();
+    // }
+
+    // public function getBottomDishesGroupedByCategory($limit = 3, $onlyUnordered = false)
+    // {
+    //     return Category::with(['categoryDish' => function ($query) use ($limit, $onlyUnordered) {
+    //         $query->withCount('orderItems');
+
+    //         if ($onlyUnordered) {
+    //             $query->having('order_items_count', '=', 0);
+    //         } else {
+    //             $query->orderBy('order_items_count', 'asc')->take($limit);
+    //         }
+    //     }])->get();
+    // }
+
+      // الطلبات حسب قناة الطلب
+        ; $ordersByChannel = Order::select('channel', DB::raw('COUNT(*) as total_orders'))
+        ;     ->groupBy('channel')
+        ;     ->pluck('total_orders', 'channel');
+
+    // public function getCategoryDishesByAnalytics(
+    //     $limit = 5,
+    //     $order = 'desc', // 'desc' for top, 'asc' for bottom
+    //     $categoryId = null,
+    //     $groupByCategory = false,
+    //     $onlyUnordered = false
+    // ) {
+    //     if ($groupByCategory) {
+    //         return Category::when($categoryId, function ($query) use ($categoryId) {
+    //                     $query->where('id', $categoryId);
+    //                 })
+    //                 ->with(['categoryDish' => function ($query) use ($limit, $order, $onlyUnordered) {
+    //                     $query->withSum('orderItems', 'quantity');
+
+    //                     if ($onlyUnordered) {
+    //                         $query->having('order_items_sum_quantity', '=', 0);
+    //                     } else {
+    //                         $query->having('order_items_sum_quantity', '>', 0)->orderBy('order_items_count', $order)
+    //                             ->take($limit);
+    //                     }
+    //                 }])
+    //                 ->get();
+    //     }
+
+    //     // Without grouping by category
+    //     $dishQuery = CategoryDish::withSum('orderItems', 'quantity');
+
+    //     if ($categoryId) {
+    //         $dishQuery->where('category_id', $categoryId);
+    //     }
+
+    //     if ($onlyUnordered) {
+    //         $dishQuery->having('order_items_sum_quantity', '=', 0);
+    //     } else {
+    //         $dishQuery->having('order_items_sum_quantity', '>', 0)->orderBy('order_items_count', $order);
+    //     }
+
+    //     return $dishQuery->take($limit)->get();
+    // }
+
+;   public function getCategoryDishesByAnalytics(
+;         $limit = 5,
+;         $order = 'desc',
+;         $categoryId = null,
+;         $groupByCategory = false,
+;         $onlyUnordered = false
+;     ) {
+;         $query = DB::table('order_items')
+;             ->join('category_dishes', 'order_items.category_dish_id', '=', 'category_dishes.id')
+;             ->join('categories', 'category_dishes.category_id', '=', 'categories.id')
+;             ->select(
+;                 'category_dishes.id as dish_id',
+;                 'category_dishes.title as dish_title',
+;                 'categories.id as category_id',
+;                 'categories.title as category_title',
+;                 DB::raw('SUM(order_items.quantity) as total_quantity')
+;             )
+;             ->groupBy('category_dishes.id', 'category_dishes.title', 'categories.id', 'categories.title');
+
+;         // Apply category filter if needed
+;         if ($categoryId) {
+;             $query->where('category_dishes.category_id', $categoryId);
+;         }
+
+;         // Filter for only unordered dishes (i.e., zero quantity)
+;         if ($onlyUnordered) {
+;             $query->having('total_quantity', '=', 0);
+;         } else {
+;             $query->having('total_quantity', '>', 0);
+;         }
+
+;         // Order by quantity
+;         $query->orderBy('total_quantity', $order);
+
+;         // If not grouped by category, limit directly
+;         if (!$groupByCategory) {
+;             $query->take($limit);
+;             return $query->get();
+;         }
+
+;         // If grouping is required, manually group the result
+;         $results = $query->get();
+
+;         return $results->groupBy('category_title')->map(function ($group) use ($limit) {
+;             return $group->take($limit)->values();
+;         });
+;     }
+
+; $deliveryOrdersToday = DB::table('orders')
+;                                     ->join('staff', 'orders.delivery_personnel_id', '=', 'staff.id')
+;                                     ->where('orders.status', 'delivered')
+;                                     ->whereDate('orders.created_at', today())
+;                                     ->select('staff.id', 'staff.name', DB::raw('COUNT(*) as delivered_orders'))
+;                                     ->groupBy('staff.id', 'staff.name')
+;                                     ->get();
+
+;         $avgDeliveryTimePerDelivery = DB::table('orders')
+;                                             ->join('staff', 'orders.delivery_personnel_id', '=', 'staff.id')
+;                                             ->whereNotNull('ready_at')
+;                                             ->whereNotNull('delivered_at')
+;                                             ->whereDate('orders.created_at', today())
+;                                             ->select('staff.id', 'staff.name', DB::raw('AVG(TIMESTAMPDIFF(MINUTE, delivering_at, delivered_at)) as avg_delivery_time'))
+;                                             ->groupBy('staff.id', 'staff.name')
+;                                             ->get();
+
+
+// public function getTopRatedDishes()
+    // {
+    //     $categoryDishes = $this->dashboardService->getCategoryDishesByAnalytics();
+
+    //     return !$categoryDishes->isEmpty()
+    //     ?$this->successResponse([
+    //         "count"             => $categoryDishes->count(),
+    //         'top_rated_category_dishes'   => $categoryDishes
+    //     ], 'Top rated dishes retrieved successfully.', 200)
+    //     :$this->errorResponse(
+    //         'There is no top rated dishes to display.',
+    //     404, []);
+    // }
+
+    // public function getTopRatedGroupedByCategory()
+    // {
+    //     $data = $this->dashboardService->getCategoryDishesByAnalytics(5, 'desc', null, true);
+
+    //     return !$data->isEmpty()
+    //     ?$this->successResponse([
+    //         "count"             => $data->count(),
+    //         'top_rated_category_dishes'   => $data
+    //     ], 'Top-rated dishes grouped by category retrieved successfully.', 200)
+    //     :$this->errorResponse(
+    //         'There is no top rated dishes to display.',
+    //     404, []);
+    // }
+
+    // public function getTopRatedDishesByCategory($categoryId)
+    // {
+    //     $dishes = $this->dashboardService->getCategoryDishesByAnalytics(5,'desc', $categoryId);
+
+    //      return !$dishes->isEmpty()
+    //     ?$this->successResponse([
+    //         "count"             => $dishes->count(),
+    //         'top_rated_category_dishes'   => $dishes
+    //     ], 'Top-rated dishes for this category retrieved successfully.', 200)
+    //     :$this->errorResponse(
+    //         'There is no top rated dishes to display.',
+    //     404, []);
+    // }
