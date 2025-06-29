@@ -1,0 +1,178 @@
+/* ========= عامة ========== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #fafafa;
+}
+
+/* ========= الحاوية الرئيسية ========== */
+.meal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ========= العنوان ========== */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+/* ========= صندوق الفلاتر ========== */
+.filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ========= الإنبت و السليكت ========== */
+select,
+input[type="number"] {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 250px;
+    transition: border-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+input[type="number"]:focus,
+select:focus {
+    border-color: #007bff;
+}
+
+/* ========= مجموعة الشيك بوكس ========== */
+.checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.checkboxes label {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse; /* الشيك بوكس يمين والنص شمال */
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    padding: 8px 14px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    min-width: 160px;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checkboxes label:hover {
+    background-color: #eaeaea;
+}
+
+input[type="checkbox"] {
+    accent-color: #007bff;
+    cursor: pointer;
+}
+
+/* ========= زر إظهار الوجبات ========== */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* ========= نتائج الوجبات ========== */
+.meal-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+/* ========= البطاقة ========== */
+.meal-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    text-align: left;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid #eee;
+}
+
+.meal-card:hover {
+    transform: translateY(-8px);
+}
+
+/* ========= محتوى البطاقة ========== */
+.meal-card h3 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.meal-card p {
+    font-size: 1rem;
+    margin: 0;
+    color: #555;
+}
+
+.meal-card ul {
+    padding-left: 20px;
+    margin: 0;
+    color: #666;
+    list-style-type: disc;
+}
+
+.meal-card ul li {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.meal-card .total-calories {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+}
+
+/* ========= في حالة عدم وجود نتائج ========== */
+.no-results {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    margin-top: 20px;
+}

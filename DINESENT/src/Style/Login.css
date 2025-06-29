@@ -1,0 +1,78 @@
+.login-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    max-width: 90%; /* مهم عشان الموبايل */
+    margin: 200px auto; /* توسيط رأسي وأفقي */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #6a82fb;
+}
+
+.error {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.btn-wrapper {
+    text-align: center;
+}
+
+button {
+    background-color: #6a82fb;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* button:hover {
+    background-color: #5a72e0;
+} */
+
+@media (max-width: 480px) {
+    .login-form {
+        padding: 30px 20px;
+        margin-top: 100px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}

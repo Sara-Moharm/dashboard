@@ -1,0 +1,72 @@
+.account-container {
+  display: flex;
+  max-width: 1000px;
+  margin: 40px auto;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 180px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+.sidebar .active {
+  color: #f26522;
+  font-weight: bold;
+  border-left: 3px solid #f26522;
+  padding-left: 7px;
+}
+
+.content {
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-btn {
+  background: none;
+  border: 1px solid #888;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.address-box {
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.address-box p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.action-btns {
+  margin-top: 10px;
+}
+
+.action-btns button {
+  margin-right: 10px;
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: white;
+}

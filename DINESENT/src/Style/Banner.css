@@ -1,0 +1,75 @@
+/* Banner.css */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.Banner {
+  background-image: url("asian-noodles-green-chives-red-chili-dark-slate-background-top-view-banner-website-cooking-concept-55676459.webp");
+  width: 100%;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  gap: 1rem;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.title {
+  font-family: "Rufina", serif;
+  font-weight: 700;
+  font-size: clamp(40px, 10vw, 140px);
+  margin: 0;
+}
+
+.parg {
+  max-width: 600px;
+  width: 100%;
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.6;
+  color: #eee;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.btns {
+  font-size: clamp(14px, 2vw, 20px);
+  margin: 10px;
+  font-family: "Inter", sans-serif;
+  background-color: #cec54b;
+  border-radius: 15px;
+  padding: 10px 20px;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btns:hover {
+  background-color: #b9ad3f;
+}
+
+/* Responsive fallback */
+@media (max-width: 480px) {
+  .Banner {
+    padding: 1rem;
+  }
+
+  .parg {
+    font-size: 14px;
+  }
+
+  .btns {
+    width: 100%;
+    max-width: 280px;
+  }
+}

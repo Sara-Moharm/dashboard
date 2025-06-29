@@ -1,0 +1,53 @@
+.payment-container {
+    max-width: 500px;
+    margin: auto;
+    background: #fdf5e6;
+    padding: 2rem;
+    border-radius: 12px;
+    font-family: sans-serif;
+    margin-top: 100px;
+}
+
+.payment-options{
+    display: flex;
+    justify-content: space-around;
+}
+.payment-options label {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px 20px;
+    background-color: #ddd;
+    border-radius: 20px;
+}
+
+.credit-form input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.expiry-ccv {
+    display: flex;
+    gap: 10px;
+}
+
+.expiry-ccv input {
+    flex: 1;
+}
+
+.terms {
+    margin: 15px 0;
+    font-size: 0.85rem;
+}
+
+.place-order {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    font-size: 1rem;
+}

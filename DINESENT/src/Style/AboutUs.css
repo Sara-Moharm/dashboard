@@ -1,0 +1,41 @@
+.About-Banner{
+    background-image: url("Blue-Yellow-Modern-Today-Special-Pizza-Banner-2-scaled.webp");
+    width: 100%;
+    height: 600px;
+    background-repeat: no-repeat;
+    background-size: cover;        
+    background-position: center;  
+    display: flex;
+    flex-direction: column;       
+    justify-content: center;      
+    align-items: center;         
+    text-align: center;
+    color: black;
+    gap: 10px;
+}
+
+.story-wrapper {
+    width: 80%;         
+    max-width: 1200px;
+    margin: 0 auto;     
+    display: flex;
+    align-items: center; 
+    margin-top: 80px;
+}
+
+.story {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 100px;
+}
+.text{
+    font-size: 70px;
+    margin-top: 50px; 
+   
+
+}
+
+    
+    
+

@@ -1,0 +1,70 @@
+.follow-container {
+    background-color: #f7f7f7;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.track-container h2 {
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.progress-track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0;
+    position: relative;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    z-index: 0;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    line-height: 40px;
+    text-align: center;
+    z-index: 1;
+    font-weight: bold;
+}
+
+.step.completed .circle {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.back-home {
+    background-color: #1c2f48;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}

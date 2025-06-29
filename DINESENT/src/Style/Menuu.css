@@ -1,0 +1,34 @@
+.menu-Banner {
+    background-image: url("WhatsApp Image 2025-05-03 at 21.51.15_c566f2ae.jpg");
+    width: 100%;
+    height: 600px;
+    background-repeat: no-repeat;
+    background-size: cover;        
+    background-position: center;  
+    display: flex;
+    flex-direction: column;       
+    justify-content: left;  /* تعديل المحاذاة العمودية إلى اليسار */
+    align-items: flex-start;  /* تعديل المحاذاة الأفقية إلى اليسار */
+    text-align: left;  /* محاذاة النص إلى اليسار */
+    color: white; 
+    gap: 10px; 
+    padding-left: 20px;  /* إضافة بعض المسافة من الجهة اليسرى */
+    
+}
+
+.title{
+    font-family: "Rufina", serif;
+    font-weight: 400;
+    font-size: clamp(20px, 50vw, 100px);
+    text-align: left;  /* محاذاة العنوان إلى اليسار */
+    margin-top: 120px;
+    margin-left: 40px;
+}
+
+.parg{
+    width: 500px;
+    font-size: clamp(14px, 2vw, 18px);
+    text-align: left;  /* محاذاة الفقرة إلى اليسار */
+    margin-left: 80px;
+
+}

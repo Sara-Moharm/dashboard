@@ -1,0 +1,28 @@
+.CheckOut-Banner {
+    background-image: url("WhatsApp Image 2025-05-06 at 18.25.43_5e5d72c7.jpg");
+    width: 100%;
+    height: 600px;
+    background-repeat: no-repeat;
+    background-size: cover;        
+    background-position: center;  
+    display: flex;
+    flex-direction: column;       
+    justify-content: left;  
+    align-items: flex-start;  
+    text-align: left;  
+    color: white; 
+    gap: 10px; 
+    padding-left: 20px;  
+    
+}
+
+.title{
+    font-family: "Rufina", serif;
+    font-weight: 400;
+    font-size: clamp(20px, 50vw, 100px);
+    text-align: left;  
+    margin-top: 120px;
+    margin-left: 40px;
+    width: 650px;
+}
+
