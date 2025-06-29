@@ -52,25 +52,25 @@ class CategoryDishSeeder extends Seeder
 
         $dishData = [
             'Grills' => [
-                'Kofta', 'Shish Tawook', 'Shish Tawook', 'Kebab', 'appetizers',
-                'desserts', 'soup', 'Shish Tawook', 'soup', 'appetizers'
+                'Kofta', 'Shish Tawook', 'Shish Tawook', 'Kebab',
+                 'Shish Tawook',
             ],
-            // 'Appetizers' => [
-            //     'French Fries', 'Spring Rolls', 'Samosa', 'Broasted Wings', 'Fried Eggplant',
-            //     'Mini Pizza', 'Cheese Sticks', 'Stuffed Olives', 'Tahini Dip', 'Moutabal'
-            // ],
-            // 'Desserts' => [
-            //     'Basbousa', 'Kunafa', 'Balah El Sham', 'Gateau', 'Cheesecake',
-            //     'Tiramisu', 'Mahalabia', 'Rice Pudding', 'Fruit Jelly', 'Custard'
-            // ],
-            // 'Soups' => [
-            //     'Lentil Soup', 'Cream of Chicken', 'Mushroom Soup', 'Orzo Soup', 'Tomato Soup',
-            //     'Vegetable Soup', 'Seafood Soup', 'Zucchini Soup', 'Chicken Broth', 'Onion Soup'
-            // ],
-            // 'Fast Food' => [
-            //     'Hot Dog', 'Classic Burger', 'Shawarma Sandwich', 'Crispy Sandwich', 'Zinger Sandwich',
-            //     'Chicken Nuggets', 'Onion Rings', 'Fried Chicken', 'Beef Wrap', 'Fish Fillet Sandwich'
-            // ],
+            'Appetizers' => [
+                'French Fries', 'Spring Rolls', 'Samosa', 'Broasted Wings', 'Fried Eggplant',
+                'Mini Pizza', 'Cheese Sticks', 'Stuffed Olives', 'Tahini Dip', 'Moutabal'
+            ],
+            'Desserts' => [
+                'Basbousa', 'Kunafa', 'Balah El Sham', 'Gateau', 'Cheesecake',
+                'Tiramisu', 'Mahalabia', 'Rice Pudding', 'Fruit Jelly', 'Custard'
+            ],
+            'Soups' => [
+                'Lentil Soup', 'Cream of Chicken', 'Mushroom Soup', 'Orzo Soup', 'Tomato Soup',
+                'Vegetable Soup', 'Seafood Soup', 'Zucchini Soup', 'Chicken Broth', 'Onion Soup'
+            ],
+            'Fast Food' => [
+                'Hot Dog', 'Classic Burger', 'Shawarma Sandwich', 'Crispy Sandwich', 'Zinger Sandwich',
+                'Chicken Nuggets', 'Onion Rings', 'Fried Chicken', 'Beef Wrap', 'Fish Fillet Sandwich'
+            ],
         ];
 
         foreach ($dishData as $categoryTitle => $dishes) {

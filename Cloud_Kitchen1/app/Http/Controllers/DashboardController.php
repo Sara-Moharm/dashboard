@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\DashboardService;
@@ -143,7 +142,7 @@ class DashboardController extends Controller
                 'success' => true,
                 'data'    => $data,
             ],'Sales performance KPIs retrieved successfully.', 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve KPIs.',
@@ -172,24 +171,27 @@ class DashboardController extends Controller
  
     public function topRatedDishes(){
         try {
-            $topRatedDishes = $this->dashboardService->getTopDishes("quantity", 10, 'desc')->map(function ($dish) {
-                return [
+          $topRatedDishes = $this->dashboardService->getTopDishes("sales", 10, 'desc')->map(function ($dish) {
+          return [
                     'id' => $dish->id,
-                    'name' => $dish->title,
+                    'title' => $dish->title, // Use 'title' instead of renaming it to 'name' for consistency
+                    'image_url' => asset($dish->image_url), // This ensures it's a full URL
+                    'total_value' => $dish->total_value, // Rename for clarity
+                    'calories' => $dish->calories,
                 ];
-            });
+        });
+
 
             return $this->successResponse([
                 'topRatedDishes' => $topRatedDishes
             ], 'Top rated dishes retrieved successfully.', 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
                 'Failed to retrieve top rated dishes.',
                 500,
                 $e->getMessage()
             );
         }
-        
     }
 
     /**

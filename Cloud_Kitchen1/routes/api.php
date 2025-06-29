@@ -115,10 +115,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/order_items/{order_item}', [OrderItemApiController::class, 'show'])->where(['order_item' => '[0-9]+']);
         Route::put('/order_items/{order_item}', [OrderItemApiController::class, 'update']);
         Route::delete('/order_items/{order_item}', [OrderItemApiController::class, 'destroy']);
-        Route::get('/toprated_dishes', [DashboardController::class, 'topRatedDishes']);
-
+        
     });
 });
+Route::get('/toprated_dishes', [DashboardController::class, 'topRatedDishes']);
 
 
 // Customer routes
@@ -146,7 +146,6 @@ Route::middleware(['auth:sanctum', 'role:customer', 'verified','throttle:120,1']
         Route::post('items/{id}/increment', [CartController::class, 'incrementItem']);
         Route::post('items/{id}/decrement', [CartController::class, 'decrementItem']);
     });
-
 });
 
 

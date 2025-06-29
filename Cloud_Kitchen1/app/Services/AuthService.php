@@ -95,7 +95,7 @@ class AuthService
 
         return $user->load('customer');
         
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             throw $e;
 

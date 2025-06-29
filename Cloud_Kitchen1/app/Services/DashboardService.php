@@ -282,6 +282,7 @@ class DashboardService
         ];
     }
 
+
     public function getTopDishes($metric = 'quantity', $limit = 5, $order = 'desc')
     {
         if ($metric === 'sales') {
@@ -292,12 +293,14 @@ class DashboardService
 
         return DB::table('order_items')
             ->join('category_dishes', 'order_items.category_dish_id', '=', 'category_dishes.id')
-            ->select('category_dishes.id', 'category_dishes.title', $aggregationColumn)
-            ->groupBy('category_dishes.id', 'category_dishes.title')
+            ->select('category_dishes.id', 'category_dishes.title','category_dishes.image_url', 'category_dishes.calories', $aggregationColumn)
+            ->groupBy('category_dishes.id', 'category_dishes.title', 'category_dishes.image_url', 'category_dishes.calories')
             ->orderBy('total_value', $order)
             ->take($limit)
             ->get();
     }
+
+
 
     public function getSalesPerformanceKPIs()
     {
@@ -449,14 +452,14 @@ class DashboardService
             'chef_order_items_today'                  => $chefCompletedOrderItemsToday,
             'chef_all_order_items_today'              => $chefAllOrderItemsToday,
             'chef_preparing_order_items_today'        => $chefPreparingOrderItemsToday,
-            'chef_efficiency'                    => $efficiency,
-            'avg_prep_time_per_chef'             => $avgPrepTimePerChef,
-            'overall_avg_prep_time'              => round($avgPrepTimePerChef->avg('avg_prep_time') ?? 0, 2),
-            'delivered_orders_today'              => $deliveredOrdersToday,
-            'delivering_orders_today'            => $deliveringOrdersToday,
-            'all_delivery_orders_today'          => $allDeliveryOrdersToday,
-            'avg_delivery_time_per_delivery'     => $avgDeliveryTimePerDelivery,
-            'overall_avg_delivery_time'          => round($avgDeliveryTimePerDelivery->avg('avg_delivery_time') ?? 0, 2)
+            'chef_efficiency'                         => $efficiency,
+            'avg_prep_time_per_chef'                  => $avgPrepTimePerChef,
+            'overall_avg_prep_time'                   => round($avgPrepTimePerChef->avg('avg_prep_time') ?? 0, 2),
+            'delivered_orders_today'                  => $deliveredOrdersToday,
+            'delivering_orders_today'                 => $deliveringOrdersToday,
+            'all_delivery_orders_today'               => $allDeliveryOrdersToday,
+            'avg_delivery_time_per_delivery'          => $avgDeliveryTimePerDelivery,
+            'overall_avg_delivery_time'               => round($avgDeliveryTimePerDelivery->avg('avg_delivery_time') ?? 0, 2)
         ];
     }
 

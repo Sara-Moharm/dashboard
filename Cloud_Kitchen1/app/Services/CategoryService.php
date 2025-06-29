@@ -11,6 +11,10 @@ class CategoryService
     public function getAllCategories()
     {
         $categories = Category::with('CategoryDish')->get();
+        $categories->transform(function ($category) {
+            $category->image_url = asset($category->image_url); // ✅ رابط كامل
+            return $category;
+        });
         return $categories;
     }
 

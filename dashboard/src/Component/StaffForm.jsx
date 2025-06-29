@@ -17,6 +17,23 @@ const StaffForm = ({ role }) => {
     shift_end: "",
   });
 
+  const formattedShiftStart = formData.shift_start
+    ? new Date(`1970-01-01T${formData.shift_start}`).toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      )
+    : "";
+
+  const formattedShiftEnd = formData.shift_end
+    ? new Date(`1970-01-01T${formData.shift_end}`).toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "";
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -138,11 +155,16 @@ const StaffForm = ({ role }) => {
                   <Form.Group className="mb-3">
                     <Form.Label>Shift Start</Form.Label>
                     <Form.Control
-                      type="datetime-local"
+                      type="time"
                       name="shift_start"
                       value={formData.shift_start}
                       onChange={handleChange}
                     />
+                    {formData.shift_start && (
+                      <small className="text-muted">
+                        🕓 {formattedShiftStart}
+                      </small>
+                    )}
                   </Form.Group>
                 </Col>
 
@@ -150,11 +172,16 @@ const StaffForm = ({ role }) => {
                   <Form.Group className="mb-3">
                     <Form.Label>Shift End</Form.Label>
                     <Form.Control
-                      type="datetime-local"
+                      type="time"
                       name="shift_end"
                       value={formData.shift_end}
                       onChange={handleChange}
                     />
+                    {formData.shift_end && (
+                      <small className="text-muted">
+                        🕔 {formattedShiftEnd}
+                      </small>
+                    )}
                   </Form.Group>
                 </Col>
               </Row>

@@ -80,7 +80,7 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["admin", "super_admin"]}>
                 {/* <Sidebar /> */}
-                <StaffForm role="admin" />
+                <StaffForm role="admin" shiftStart="" />
               </ProtectedRoute>
             }
           />

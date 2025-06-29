@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');  // FK to users table
-            $table->timestamp('shift_start')->nullable();  // Nullable for non-kitchen staff
-            $table->timestamp('shift_end')->nullable();    // Nullable for non-kitchen staff
+            $table->time('shift_start')->nullable();  // Nullable for non-kitchen staff
+            $table->time('shift_end')->nullable();    // Nullable for non-kitchen staff
             $table->enum('status', ['available', 'busy'])->nullable(); // Nullable for non-kitchen staff
             $table->timestamps();
             $table->softDeletes();  // Soft delete for staff records

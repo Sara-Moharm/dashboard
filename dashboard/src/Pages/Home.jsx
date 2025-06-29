@@ -38,7 +38,7 @@ const Home = () => {
 
         {/* Page Content */}
         {/* Tabs Section */}
-        {/* <DashboardTabs /> */}
+        <DashboardTabs />
       </div>
     </div>
   );

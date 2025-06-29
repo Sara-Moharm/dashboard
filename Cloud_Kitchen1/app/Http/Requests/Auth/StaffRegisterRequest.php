@@ -33,7 +33,6 @@ class StaffRegisterRequest extends FormRequest
             'shift_end' => ['required', 'date_format:H:i', 'after:shift_start'],
         ];
         
-        
         return $rules;
     }
     public function messages(): array

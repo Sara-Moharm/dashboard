@@ -48,10 +48,11 @@ class CategorySeeder extends Seeder
 
         foreach ($categories as $categoryTitle) {
             $imageName = strtolower(str_replace(' ', '_', $categoryTitle)) . '.jpg';
+            // $imageName = "assets/kebab.jpg";
             Category::create([
                 'title' => $categoryTitle,
-                'description' => $categoryTitle . ' category',
-                'image_url' => asset("assets/$imageName"),
+                'description' => $categoryTitle . "category",
+                'image_url' => "assets/$imageName",
             ]);
         }
     }

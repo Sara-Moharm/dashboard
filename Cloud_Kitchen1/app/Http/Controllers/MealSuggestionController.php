@@ -111,8 +111,8 @@ class MealSuggestionController extends Controller
                 'id' => $dish['id'],
                 'title' => $dish['title'],
                 'calories' => $dish['calories'],
+                'image_url' => asset($dish['image_url']), // ← أضفنا ده
             ], $dishes);
-        
 
             $results[] = [
             'dishes' => $dishes,
